@@ -1,42 +1,39 @@
-name: Build & Upload to Cloudsmith
+name: Upload Python Package to Cloudsmith via CLI
 
 on:
   push:
-    branches: [ main ]
-
-
+    branches:
+      - main
 
 jobs:
   upload:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣  Pull project code
-      - name: Checkout
+      # 1️⃣ Checkout your repo
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣  Use the Python version you need
-      - name: Set-up Pythons
+      # 2️⃣ Set up Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      # 3️⃣  Install build tools + twine
-      - name: Install build deps
+      # 3️⃣ Install dependencies
+      - name: Install build tools and Cloudsmith CLI
         run: |
           python -m pip install --upgrade pip
-          pip install setuptools wheel twine
+          pip install setuptools wheel cloudsmith-cli
 
-      # 4️⃣  Build wheel + sdist into dist/
-      - name: Build package
-        run: python setup.py sdist bdist_wheel
-
-      # 5️⃣  Upload every file in dist/ to Cloudsmith
-      - name: Upload to Cloudsmith with Twine
-        env:
-          TWINE_USERNAME: rini-jain
-          TWINE_PASSWORD: ${{ secrets.CLOUDSMITH_API_KEY }}
+      # 4️⃣ Build your package
+      - name: Build Python package
         run: |
-          pip upload \
-            --repository-url https://python.cloudsmith.io/rini-jain-rnye/api_repo/ \
-            dist/*
+          python setup.py bdist_wheel
+
+      # 5️⃣ Upload to Cloudsmith using CLI
+      - name: Push to Cloudsmith
+        env:
+          CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+        run: |
+          cloudsmith push python rini-jain-rnye/api_repo dist/*.whl

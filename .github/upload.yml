@@ -1,9 +1,8 @@
 name: Build & Upload to Cloudsmith
 
-# 👉 Run automatically on every push to main (change if you like)
 on:
-  push:
-    branches: [ main ]
+  workflow_dispatch:
+
 
 jobs:
   upload:

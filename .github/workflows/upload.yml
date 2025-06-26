@@ -1,7 +1,9 @@
 name: Build & Upload to Cloudsmith
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ master ]
+
 
 
 jobs:

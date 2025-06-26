@@ -30,7 +30,7 @@ jobs:
         run: python setup.py sdist bdist_wheel
 
       # 5️⃣  Upload every file in dist/ to Cloudsmith
-      - name: Upload to Cloudsmith with Twines
+      - name: Upload to Cloudsmith with Twine
         env:
           TWINE_USERNAME: rini-jain
           TWINE_PASSWORD: ${{ secrets.CLOUDSMITH_API_KEY }}

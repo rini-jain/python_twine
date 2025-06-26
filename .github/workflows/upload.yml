@@ -37,6 +37,6 @@ jobs:
           TWINE_USERNAME: rini-jain
           TWINE_PASSWORD: ${{ secrets.CLOUDSMITH_API_KEY }}
         run: |
-          twine upload \
+          pip upload \
             --repository-url https://python.cloudsmith.io/rini-jain-rnye/api_repo/ \
             dist/*
